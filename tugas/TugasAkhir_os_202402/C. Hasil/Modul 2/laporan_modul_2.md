@@ -1,25 +1,26 @@
 # 📝 Laporan Tugas Akhir
 
-**Mata Kuliah**: Sistem Operasi
-**Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `<Nama Lengkap>`
-**NIM**: `<Nomor Induk Mahasiswa>`
-**Modul yang Dikerjakan**:
-`(Contoh: Modul 1 – System Call dan Instrumentasi Kernel)`
-
+* **Mata Kuliah**: Sistem Operasi
+* **Semester**: Genap / Tahun Ajaran 2024–2025
+* **Nama**: Anindiya Larasati
+* **NIM**: 240202829
+* **Modul yang Dikerjakan**:
+ Modul 2 – Penjadwalan CPU Lanjutan (Priority Scheduling Non-Preemptive
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
-
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+* **Modul 2 – Penjadwalan CPU Lanjutan (Priority Scheduling Non-Preemptive**:
+  Pada sistem operasi xv6, algoritma penjadwalan default (Round Robin) diubah menjadi Non-Preemptive Priority Scheduling. Proses dengan prioritas lebih tinggi (angka lebih kecil) dijalankan lebih dulu dan terus berjalan hingga selesai atau statusnya berubah.
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+* Menambahkan field priority pada setiap proses.
+* Menambahkan syscall set_priority(int) untuk mengatur prioritas proses.
+* Memodifikasi scheduler agar selalu menjalankan proses RUNNABLE dengan prioritas tertinggi.
+
+---
 
 ### Contoh untuk Modul 1:
 
@@ -32,14 +33,8 @@ Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
-
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
+Program uji yang digunakan:
+- `ptest`: untuk menguji urutan eksekusi proses berdasarkan prioritas
 
 ---
 
@@ -47,31 +42,12 @@ Tuliskan program uji apa saja yang Anda gunakan, misalnya:
 
 Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
+### 📍 Contoh Output `ptest`:
 
 ```
-Child sees: Y
-Parent sees: X
-```
-
-### 📍 Contoh Output `shmtest`:
-
-```
-Child reads: A
-Parent reads: B
-```
-
-### 📍 Contoh Output `chmodtest`:
-
-```
-Write blocked as expected
-```
-
-Jika ada screenshot:
-
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
+Child 2 selesai
+Child 1 selesai
+Parent selesai
 
 ---
 
@@ -79,10 +55,10 @@ Jika ada screenshot:
 
 Tuliskan kendala (jika ada), misalnya:
 
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
-
+* Muncul error proc undeclared karena masih memakai variabel global proc, seharusnya menggunakan c->proc di dalam fungsi scheduler().
+* Error p undeclared saat menulis c->proc = p; karena p belum dideklarasikan.
+* Urutan deklarasi pointer p yang salah (dideklarasikan setelah loop) menyebabkan error saat kompilasi.
+* Solusinya: pindahkan deklarasi struct proc *p; ke bagian atas sebelum digunakan.
 ---
 
 ## 📚 Referensi
