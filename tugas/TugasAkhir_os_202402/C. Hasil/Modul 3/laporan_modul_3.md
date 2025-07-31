@@ -1,45 +1,43 @@
 # 📝 Laporan Tugas Akhir
 
-**Mata Kuliah**: Sistem Operasi
-**Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `<Nama Lengkap>`
-**NIM**: `<Nomor Induk Mahasiswa>`
-**Modul yang Dikerjakan**:
-`(Contoh: Modul 1 – System Call dan Instrumentasi Kernel)`
+* **Mata Kuliah**: Sistem Operasi
+* **Semester**: Genap / Tahun Ajaran 2024–2025
+* **Nama**: `<Nama Lengkap>`
+* **NIM**: `<Nomor Induk Mahasiswa>`
+* **Modul yang Dikerjakan**:
+ Modul 3 — Manajemen Memori Tingkat Lanjut (xv6-public x86)  
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
-
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+Modul 3 – Manajemen Memori Tingkat Lanjut (xv6-public x86)
+Mengimplementasikan dua fitur utama:
+* Copy-on-Write Fork (CoW) untuk efisiensi pemanggilan fork()
+* Shared Memory dengan shmget(key) dan shmrelease(key) untuk berbagi memori antar proses
 ---
 
 ## 🛠️ Rincian Implementasi
 
 Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
 
-### Contoh untuk Modul 1:
+###  Copy-on-Write Fork
 
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
+* Modifikasi fork() pakai teknik CoW dengan bit PTE_COW.
+* Tambah handler page fault CoW di trap.c, serta incref()/decref() untuk reference count.
+* Ubah walkpgdir() dan pastikan exit()/wait() mengelola ref_count dengan benar.
+
+### Shared Memory ala System V
+
+* Tambah syscall shmget(key) dan shmrelease(key) serta tabel shmtab[].
+* Shared memory dipetakan dari USERTOP ke bawah dan tetap terhubung setelah fork().
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
-
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
+Program uji yang digunakan:
+* cowtest: untuk menguji fork dengan Copy-on-Write
+* shmtest: untuk menguji shmget() dan shmrelease()
 
 ---
 
@@ -47,30 +45,18 @@ Tuliskan program uji apa saja yang Anda gunakan, misalnya:
 
 Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
+### 📍 Output `cowtest`:
 
 ```
 Child sees: Y
 Parent sees: X
 ```
 
-### 📍 Contoh Output `shmtest`:
+### 📍 Output `shmtest`:
 
 ```
 Child reads: A
 Parent reads: B
-```
-
-### 📍 Contoh Output `chmodtest`:
-
-```
-Write blocked as expected
-```
-
-Jika ada screenshot:
-
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
 ```
 
 ---
