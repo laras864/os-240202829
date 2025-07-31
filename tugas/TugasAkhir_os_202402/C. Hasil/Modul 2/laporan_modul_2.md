@@ -22,15 +22,6 @@
 
 ---
 
-### Contoh untuk Modul 1:
-
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
----
-
 ## ✅ Uji Fungsionalitas
 
 Program uji yang digunakan:
@@ -42,7 +33,7 @@ Program uji yang digunakan:
 
 Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `ptest`:
+### 📍 Output `ptest`:
 
 ```
 Child 2 selesai
@@ -52,8 +43,6 @@ Parent selesai
 ---
 
 ## ⚠️ Kendala yang Dihadapi
-
-Tuliskan kendala (jika ada), misalnya:
 
 * Muncul error proc undeclared karena masih memakai variabel global proc, seharusnya menggunakan c->proc di dalam fungsi scheduler().
 * Error p undeclared saat menulis c->proc = p; karena p belum dideklarasikan.
