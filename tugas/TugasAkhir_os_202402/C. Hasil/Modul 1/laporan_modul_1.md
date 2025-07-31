@@ -10,27 +10,20 @@
 
 ## 📌 Deskripsi Singkat Tugas
 
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call
-  - getpinfo() — untuk melihat informasi proses-proses yang aktif di sistem.
-  - getReadCount() — untuk menghitung berapa kali fungsi read() dipanggil sejak sistem boot.
+**Modul 1 – System Call dan Instrumentasi Kernel**:
+ Menambahkan dua system call
+* getpinfo() — untuk melihat informasi proses-proses yang aktif di sistem.
+* getReadCount() — untuk menghitung berapa kali fungsi read() dipanggil sejak sistem boot.
 ---
 
 ## 🛠️ Rincian Implementasi
 
-- menambahkan Struktur pinfo dan Counter readcount, dalam file proc.c dan sysproc.c.
-- menambahkan Nomor System Call Baru, dalam file syscall.h dan syscall.c , user.h dan usys.c.
-- mengimplemntasikan fungsi kernel. menambahkan kode dalam file sysproc.c.
-- memodifikasi read() untuk Tambah Counter. Di sysfile.c, fungsi sys_read().
-- membuat Program Penguji User-Level. dalam File: ptest.c (untuk getpinfo), dan File: rtest.c (untuk getreadcount).
+* menambahkan Struktur pinfo dan Counter readcount, dalam file proc.c dan sysproc.c.
+*  menambahkan Nomor System Call Baru, dalam file syscall.h dan syscall.c , user.h dan usys.c.
+* mengimplemntasikan fungsi kernel. menambahkan kode dalam file sysproc.c.
+* memodifikasi read() untuk Tambah Counter. Di sysfile.c, fungsi sys_read().
+* membuat Program Penguji User-Level. dalam File: ptest.c (untuk getpinfo), dan File: rtest.c (untuk getreadcount).
 
-### Contoh untuk Modul 1:
-
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
 ---
 
 ## ✅ Uji Fungsionalitas
@@ -41,9 +34,9 @@
 
 ## 📷 Hasil Uji
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
+Lampirkan hasil uji berupa screenshot atau output terminal. 
 
-### 📍 Contoh Output `ptest`:
+### 📍 Output `ptest`:
 
 ```
 PID     MEM     NAME
@@ -52,7 +45,7 @@ PID     MEM     NAME
 3       12288   ptest
 ```
 
-### 📍 Contoh Output `rtest`:
+### 📍 Output `rtest`:
 
 ```
 Read Count Sebelum: 12
