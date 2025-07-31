@@ -1,9 +1,9 @@
 # 📝 Laporan Tugas Akhir
 
-**Mata Kuliah**: Sistem Operasi
-**Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `Anindiya Larasati`
-**NIM**: `240202829'
+* **Mata Kuliah**: Sistem Operasi
+* **Semester**: Genap / Tahun Ajaran 2024–2025
+* **Nama**: `Anindiya Larasati`
+* **NIM**: `240202829'
 **Modul yang Dikerjakan**:'Modul 1 – System Call dan Instrumentasi Kernel)`
 
 ---
