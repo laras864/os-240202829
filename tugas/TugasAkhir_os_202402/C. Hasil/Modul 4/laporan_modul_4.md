@@ -36,15 +36,15 @@ Program uji yang digunakan:
 
 ## 📷 Hasil Uji
 
-Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
+Lampirkan hasil uji berupa output terminal.
 
-### 📍 Contoh Output `chmodtest`:
+### 📍 Output `chmodtest`:
 
 ```
 Write blocked as expected
 ```
 
-### 📍 Contoh Output `randomtest`:
+### 📍 Output `randomtest`:
 
 ```
 114 97 110 100 111 109 116 101
