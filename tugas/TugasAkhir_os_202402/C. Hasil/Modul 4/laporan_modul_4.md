@@ -1,45 +1,36 @@
 # 📝 Laporan Tugas Akhir
 
-**Mata Kuliah**: Sistem Operasi
-**Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `<Nama Lengkap>`
-**NIM**: `<Nomor Induk Mahasiswa>`
-**Modul yang Dikerjakan**:
-`(Contoh: Modul 1 – System Call dan Instrumentasi Kernel)`
+* **Mata Kuliah**: Sistem Operasi
+* **Semester**: Genap / Tahun Ajaran 2024–2025
+* **Nama**: `<Nama Lengkap>`
+* **NIM**: `<Nomor Induk Mahasiswa>`
+* **Modul yang Dikerjakan**:
+Modul 4 – Subsistem Kernel Alternatif (xv6-public)
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
+Modul 4 – Subsistem Kernel Alternatif (xv6-public)
+Menambahkan dua fitur ke sistem operasi xv6, yaitu:
 
-* **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+* chmod(path, mode) syscall untuk mengatur mode file (read-only atau read-write)
+* Driver pseudo-device /dev/random yang menghasilkan byte acak saat dibaca
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
-
-### Contoh untuk Modul 1:
-
-* Menambahkan dua system call baru di file `sysproc.c` dan `syscall.c`
-* Mengedit `user.h`, `usys.S`, dan `syscall.h` untuk mendaftarkan syscall
-* Menambahkan struktur `struct pinfo` di `proc.h`
-* Menambahkan counter `readcount` di kernel
-* Membuat dua program uji: `ptest.c` dan `rtest.c`
+* Tambah system call chmod: fungsi sys_chmod di sysfile.c, nomor syscall di syscall.h, deklarasi di user.h, usys.S.
+* Tambah field mode di struct inode (fs.h) dan modifikasi writei() untuk cek flag read-only.
+* Tambah device /dev/random: entry device di ide.c/sysfile.c, fungsi randomread(), dan register via mknod() di init.c.
+* Program uji: chmodtest.c (cek proteksi write), randomtest.c (baca 8 byte pseudo-random).
 ---
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
-
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
+Program uji yang digunakan:
+* chmodtest: untuk menguji syscall chmod(path, mode)
+* randomtest: untuk menguji pembacaan dari /dev/random
 
 ---
 
@@ -47,42 +38,24 @@ Tuliskan program uji apa saja yang Anda gunakan, misalnya:
 
 Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
-
-```
-Child sees: Y
-Parent sees: X
-```
-
-### 📍 Contoh Output `shmtest`:
-
-```
-Child reads: A
-Parent reads: B
-```
-
 ### 📍 Contoh Output `chmodtest`:
 
 ```
 Write blocked as expected
 ```
 
-Jika ada screenshot:
+### 📍 Contoh Output `randomtest`:
 
 ```
-![hasil cowtest](./screenshots/cowtest_output.png)
-```
+114 97 110 100 111 109 116 101
 
 ---
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
-
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
-
+* File /dev/random hilang setelah reboot — diatasi dengan menambahkan mknod di init.c.
+* Salah register device major menyebabkan panic saat device diakses.
+* Proteksi read-only tidak berfungsi sampai writei() dimodifikasi.
 ---
 
 ## 📚 Referensi
