@@ -2,24 +2,27 @@
 
 **Mata Kuliah**: Sistem Operasi
 **Semester**: Genap / Tahun Ajaran 2024–2025
-**Nama**: `<Nama Lengkap>`
-**NIM**: `<Nomor Induk Mahasiswa>`
-**Modul yang Dikerjakan**:
-`(Contoh: Modul 1 – System Call dan Instrumentasi Kernel)`
+**Nama**: `Anindiya Larasati`
+**NIM**: `240202829'
+**Modul yang Dikerjakan**:'Modul 1 – System Call dan Instrumentasi Kernel)`
 
 ---
 
 ## 📌 Deskripsi Singkat Tugas
 
-Tuliskan deskripsi singkat dari modul yang Anda kerjakan. Misalnya:
-
 * **Modul 1 – System Call dan Instrumentasi Kernel**:
-  Menambahkan dua system call baru, yaitu `getpinfo()` untuk melihat proses yang aktif dan `getReadCount()` untuk menghitung jumlah pemanggilan `read()` sejak boot.
+  Menambahkan dua system call
+  - getpinfo() — untuk melihat informasi proses-proses yang aktif di sistem.
+  - getReadCount() — untuk menghitung berapa kali fungsi read() dipanggil sejak sistem boot.
 ---
 
 ## 🛠️ Rincian Implementasi
 
-Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
+- menambahkan Struktur pinfo dan Counter readcount, dalam file proc.c dan sysproc.c.
+- menambahkan Nomor System Call Baru, dalam file syscall.h dan syscall.c , user.h dan usys.c.
+- mengimplemntasikan fungsi kernel. menambahkan kode dalam file sysproc.c.
+- memodifikasi read() untuk Tambah Counter. Di sysfile.c, fungsi sys_read().
+- membuat Program Penguji User-Level. dalam File: ptest.c (untuk getpinfo), dan File: rtest.c (untuk getreadcount).
 
 ### Contoh untuk Modul 1:
 
@@ -32,56 +35,38 @@ Tuliskan secara ringkas namun jelas apa yang Anda lakukan:
 
 ## ✅ Uji Fungsionalitas
 
-Tuliskan program uji apa saja yang Anda gunakan, misalnya:
-
-* `ptest`: untuk menguji `getpinfo()`
-* `rtest`: untuk menguji `getReadCount()`
-* `cowtest`: untuk menguji fork dengan Copy-on-Write
-* `shmtest`: untuk menguji `shmget()` dan `shmrelease()`
-* `chmodtest`: untuk memastikan file `read-only` tidak bisa ditulis
-* `audit`: untuk melihat isi log system call (jika dijalankan oleh PID 1)
-
+* `ptest`: Menampilkan informasi proses yang sedang aktif, seperti PID, status, dan penggunaan CPU/memori (sesuai isi struct pinfo).
+* `rtest`: Menampilkan jumlah total pemanggilan read() yang telah terjadi sejak sistem boot.
 ---
 
 ## 📷 Hasil Uji
 
 Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 
-### 📍 Contoh Output `cowtest`:
+### 📍 Contoh Output `ptest`:
 
 ```
-Child sees: Y
-Parent sees: X
+PID     MEM     NAME
+1       12288   init
+2       16384   sh
+3       12288   ptest
 ```
 
-### 📍 Contoh Output `shmtest`:
+### 📍 Contoh Output `rtest`:
 
 ```
-Child reads: A
-Parent reads: B
-```
-
-### 📍 Contoh Output `chmodtest`:
-
-```
-Write blocked as expected
-```
-
-Jika ada screenshot:
-
-```
-![hasil cowtest](./screenshots/cowtest_output.png)
+Read Count Sebelum: 12
+hello
+Read Count Setelah: 13
 ```
 
 ---
 
 ## ⚠️ Kendala yang Dihadapi
 
-Tuliskan kendala (jika ada), misalnya:
-
-* Salah implementasi `page fault` menyebabkan panic
-* Salah memetakan alamat shared memory ke USERTOP
-* Proses biasa bisa akses audit log (belum ada validasi PID)
+ * Awalnya terjadi error karena salah memanggil pointer: ptable seharusnya menunjuk ke struct proc, bukan struct pinfo.
+ * Juga muncul error incomplete type karena belum menyertakan #include "spinlock.h".
+ * Perlu hati-hati saat menggunakan argptr() dan pointer di syscall agar data tidak corrupt.
 
 ---
 
