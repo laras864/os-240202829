@@ -48,7 +48,7 @@ Lampirkan hasil uji berupa screenshot atau output terminal. Contoh:
 Child 2 selesai
 Child 1 selesai
 Parent selesai
-
+```
 ---
 
 ## ⚠️ Kendala yang Dihadapi
